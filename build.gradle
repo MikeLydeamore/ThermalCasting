@@ -1,0 +1,77 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+
+version = "0.0.1"
+group= "com.insane.thermalcasting" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "thermalcasting"
+
+minecraft {
+    version = "1.7.10-10.13.2.1291"
+    runDir = "eclipse"
+}
+
+repositories {
+	ivy {
+		name "CoFHLib"
+		artifactPattern "http://addons-origin.cursecdn.com/files/2229/831/[module]-[revision].[ext]"
+	}
+	ivy {
+		name "CoFHCore"
+        artifactPattern "http://addons-origin.cursecdn.com/files/2229/839/[module]-[revision].[ext]"
+    }
+	ivy {
+		name "ThermalExpansion"
+        artifactPattern "http://addons-origin.cursecdn.com/files/2229/840/[module]-[revision].[ext]"
+    }
+	ivy {
+		name "ThermalFoundation"
+        artifactPattern "http://addons-origin.cursecdn.com/files/2229/834/[module]-[revision].[ext]"
+    }
+	 
+	  maven { url = "http://dvs1.progwml6.com/files/maven/" } // TCon and Mantle
+	  	maven { url = "http://chickenbones.net/maven/" } // CCC & NEI
+}
+
+dependencies {
+   compile name: 'CoFHLib', version: "[1.7.10]1.0.0RC6-124-dev", ext: 'jar'
+	compile name: 'CoFHCore', version: "[1.7.10]3.0.0RC5-208-dev", ext: 'jar'
+	compile name: 'ThermalExpansion', version: "[1.7.10]4.0.0RC6-139-dev", ext: 'jar'
+	compile name: 'ThermalFoundation', version: "[1.7.10]1.0.0RC4-59-dev", ext: 'jar'
+	compile "tconstruct:TConstruct:1.7.10-1.8.3.build917:deobf"
+}
+
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
