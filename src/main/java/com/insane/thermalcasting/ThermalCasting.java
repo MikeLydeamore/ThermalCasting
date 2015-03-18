@@ -26,7 +26,7 @@ public class ThermalCasting {
 	@Mod.Instance(MODID)
 	public static ThermalCasting instance;
 	
-	@SidedProxy(clientSide="com.insane.thermalcasting.client.ClientProxy", serverSide="com.insane.CommonProxy")
+	@SidedProxy(clientSide="com.insane.thermalcasting.client.ClientProxy", serverSide="com.insane.thermalcasting.CommonProxy")
 	public static CommonProxy proxy;
 	
 	public static Block blockCastingFrame;
